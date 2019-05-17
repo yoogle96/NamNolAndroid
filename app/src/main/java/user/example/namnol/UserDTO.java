@@ -1,13 +1,15 @@
 package user.example.namnol;
 
 public class UserDTO {
-    public String id;
-    public String password;
-    public String passwordConfirm;
+    public String username;
+    public String email;
+    public String password1;
+    public String password2;
 
-    public UserDTO(String id, String password, String passwordConfirm){
-        this.id = id;
-        this.password = password;
-        this.passwordConfirm = passwordConfirm;
+    public UserDTO(String username, String email, String password1, String password2){
+        this.username = username;
+        this.email = email;
+        this.password1 = password1;
+        this.password2 = password2;
     }
 }
