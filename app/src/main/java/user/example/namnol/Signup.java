@@ -7,6 +7,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,7 +25,8 @@ public class Signup extends AppCompatActivity {
     TextView etEmail;
     TextView etPassword;
     TextView etPasswordConfirm;
-    Button btnSubmit;
+    Button btnSignup;
+    Button btnCancel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,14 +40,22 @@ public class Signup extends AppCompatActivity {
         etEmail = ((EditText)findViewById(R.id.et_email));
         etPassword = ((EditText)findViewById(R.id.et_password));
         etPasswordConfirm = ((EditText)findViewById(R.id.et_passwordConfirm));
-        btnSubmit = findViewById(R.id.btn_submit);
+        btnSignup = findViewById(R.id.btn_signup);
+        btnCancel = findViewById(R.id.btn_cancel);
 
 
         // 회원가입 버튼 클릭 이벤트
-        btnSubmit.setOnClickListener(new Button.OnClickListener(){
+        btnSignup.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View view){
                 createUser();
+            }
+        });
+
+        btnCancel.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                finish();
             }
         });
 
@@ -78,5 +88,11 @@ public class Signup extends AppCompatActivity {
                 Log.d("에러", t.toString());
             }
         });
+
+        Intent signUpIntent = new Intent();
+        signUpIntent.putExtra("signUpId", userDTO.username);
+        setResult(RESULT_OK, signUpIntent);
+        finish();
+
     }
 }

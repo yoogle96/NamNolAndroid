@@ -7,6 +7,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -38,12 +39,33 @@ public class Signin extends AppCompatActivity {
         btnSignin = (Button) findViewById(R.id.btn_signin);
         btnSignup = (Button) findViewById(R.id.btn_signup);
 
+        // 로그인 버튼 이벤트
         btnSignin.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View view){
                 signinUser();
             }
         });
+
+        // 회원가입 버튼 이벤트
+        btnSignup.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Intent intent = new Intent(Signin.this, Signup.class);
+                startActivityForResult(intent, 3000);
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == RESULT_OK){
+            switch (requestCode){
+                case 3000:
+                    etId.setText(data.getStringExtra("signUpId"));
+                    break;
+            }
+        }
     }
 
     private void setRetrofitInit() {
