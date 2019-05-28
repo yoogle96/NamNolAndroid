@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "238305277870",
+    "firebase_url": "https://namnolchat.firebaseio.com",
+    "project_id": "namnolchat",
+    "storage_bucket": "namnolchat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:238305277870:android:7f95f897027e5085",
+        "android_client_info": {
+          "package_name": "user.example.namnol"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "238305277870-v0q7ss696gb20qkebjm8c5t9fenmcokv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVga7KppTi2qDotbKc79e3PW4taMntOlo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "238305277870-v0q7ss696gb20qkebjm8c5t9fenmcokv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
