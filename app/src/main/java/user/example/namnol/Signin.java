@@ -86,7 +86,12 @@ public class Signin extends AppCompatActivity {
         mUserDTO.enqueue(new Callback<UserDTO>(){
             @Override
             public void onResponse(Call<UserDTO> call, Response<UserDTO> response){
-                System.out.println(response.toString());
+                if(response.code() == 200){
+                    Intent intent = new Intent(Signin.this, ChatRoom.class);
+                    intent.putExtra("userName", etId.getText().toString());
+                    startActivityForResult(intent, 3000);
+                }
+
             }
 
             @Override

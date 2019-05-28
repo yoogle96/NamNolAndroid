@@ -37,7 +37,7 @@ public class ChatRoom extends AppCompatActivity {
     private ArrayList<String> arrRoomList = new ArrayList<>();
     private DatabaseReference reference = FirebaseDatabase.getInstance().getReference().getRoot();
     private String name;
-    private String strName;
+    private String userName;
     private String strRoom;
 
     Map<String, Object> map = new HashMap<String, Object>();
@@ -50,7 +50,7 @@ public class ChatRoom extends AppCompatActivity {
 
         // 로그인화면에서 닉네임을 가져온다.
         Intent intent = getIntent();
-        strName = intent.getStringExtra("name");
+        userName = intent.getStringExtra("userName");
 
         listView = (ListView) findViewById(R.id.list);
         btnCreate = findViewById(R.id.btn_create);
@@ -115,7 +115,7 @@ public class ChatRoom extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getApplicationContext(), Chat.class);
                 intent.putExtra("roomName", ((TextView) view).getText().toString());
-                intent.putExtra("userName", strName);
+                intent.putExtra("userName", userName);
                 startActivity(intent);
             }
         });

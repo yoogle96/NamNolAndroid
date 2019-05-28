@@ -18,6 +18,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -29,11 +30,16 @@ public class Chat extends AppCompatActivity {
     private ListView lvChating;
 
     private ArrayAdapter<String> arrayAdapter;
+    private ArrayList<String> arrayRoom = new ArrayList<>();
 
-    private String strName;
-    private String strMsg;
+    private String strRoomName;
+    private String strUserName;
+
+    private DatabaseReference reference;
+    private String key;
     private String chatUser;
-    private DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("message");
+    private String chatMessage;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,14 +50,19 @@ public class Chat extends AppCompatActivity {
         btnSend = findViewById(R.id.btn_send);
         etMsg = findViewById(R.id.et_msg);
 
-        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
+        Log.v("roomName : ", getIntent().getExtras().get("roomName").toString());
+        Log.v("userName : ", getIntent().getExtras().get("userName").toString());
+        strRoomName = getIntent().getExtras().get("roomName").toString();
+        strUserName = getIntent().getExtras().get("userName").toString();
+        reference = FirebaseDatabase.getInstance().getReference().child(strRoomName);
+
+        setTitle(strRoomName + " 채팅방");
+
+        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, arrayRoom);
         lvChating.setAdapter(arrayAdapter);
 
         // 리스트뷰가 갱신될 때 하단으로 자동 스크롤 이동
         lvChating.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
-
-        // TODO: 채팅 사용자 이름 적용해야함
-        strName = "Guest" + new Random().nextInt();
 
         btnSend.setOnClickListener(new View.OnClickListener(){
             @Override public void onClick(View view){
@@ -65,8 +76,8 @@ public class Chat extends AppCompatActivity {
 
                 Map<String, Object> objectMap = new HashMap<String, Object>();
 
-                objectMap.put("stName", strName);
-                objectMap.put("text", etMsg.getText().toString());
+                objectMap.put("name", strUserName);
+                objectMap.put("message", etMsg.getText().toString());
 
                 dbRef.updateChildren(objectMap);
                 etMsg.setText("");
@@ -113,11 +124,11 @@ public class Chat extends AppCompatActivity {
 
             while(i.hasNext()){
                 chatUser = (String) ((DataSnapshot) i.next()).getValue();
-                strMsg = (String) ((DataSnapshot) i.next()).getValue();
+                chatMessage = (String) ((DataSnapshot) i.next()).getValue();
 
-                arrayAdapter.add(chatUser + " : " + strMsg);
+                arrayAdapter.add(chatMessage + " : " + chatUser);
                 Log.v("유저 : ", chatUser);
-                Log.v("메시지 : ", strMsg);
+                Log.v("메시지 : ", chatMessage);
             }
 
             arrayAdapter.notifyDataSetChanged();
