@@ -36,6 +36,12 @@
             android:hint="Password"
             android:inputType="textPassword" />
 
+        <TextView
+            android:id="@+id/tv_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="49dp"

@@ -13,6 +13,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Multipart;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -37,6 +38,7 @@ public class Portal extends AppCompatActivity {
     TextView etId;
     TextView etPassword;
     Button btnCheck;
+    TextView tvResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,7 @@ public class Portal extends AppCompatActivity {
         etId = (EditText) findViewById(R.id.et_id);
         etPassword = (EditText) findViewById(R.id.et_password);
         btnCheck = findViewById(R.id.btn_check);
+        tvResult = findViewById(R.id.tv_result);
 
         btnCheck.setOnClickListener(new Button.OnClickListener(){
             @Override
@@ -54,6 +57,19 @@ public class Portal extends AppCompatActivity {
                 checkPortal();
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == RESULT_OK){
+            switch (requestCode){
+                case 3000:
+                    Intent signUpIntent = new Intent();
+                    signUpIntent.putExtra("signUpId",data.getStringExtra("signUpId"));
+                    setResult(RESULT_OK, signUpIntent);
+                    finish();
+            }
+        }
     }
 
     private void setRetrofitInit(){
@@ -90,8 +106,13 @@ public class Portal extends AppCompatActivity {
                     String res = response.body().string();
                     JSONObject obj = new JSONObject(res);
 
-
-
+                    if(obj.getString("code").equals("10000")){
+                        Intent intent = new Intent(Portal.this, Signup.class);
+                        startActivityForResult(intent, 3000);
+                    }
+                    else{
+                        tvResult.setText("아이디 또는 비밀번호가 틀립니다.");
+                    }
                     Log.d("My App", obj.getString("code"));
                 }catch (Exception ex){
                     Log.e("error","Exception -> "+ex.getMessage());

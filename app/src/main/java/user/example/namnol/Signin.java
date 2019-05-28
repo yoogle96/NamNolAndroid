@@ -51,7 +51,8 @@ public class Signin extends AppCompatActivity {
         btnSignup.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View view){
-                Intent intent = new Intent(Signin.this, Signup.class);
+//                Intent intent = new Intent(Signin.this, Signup.class);
+                Intent intent = new Intent(Signin.this, Portal.class);
                 startActivityForResult(intent, 3000);
             }
         });
