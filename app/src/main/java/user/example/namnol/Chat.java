@@ -51,13 +51,16 @@ public class Chat extends AppCompatActivity {
         btnSend = findViewById(R.id.btn_send);
         etMsg = findViewById(R.id.et_msg);
 
-        Log.v("roomName : ", getIntent().getExtras().get("roomName").toString());
-        Log.v("userName : ", getIntent().getExtras().get("userName").toString());
         strRoomName = getIntent().getExtras().get("roomName").toString();
         strUserName = getIntent().getExtras().get("userName").toString();
-        roomKey = getIntent().getExtras().get("roomKey").toString();
-//        reference = FirebaseDatabase.getInstance().getReference().child("ChatRoom").child(strRoomName);
-        reference = FirebaseDatabase.getInstance().getReference().child("RandomChat").child(roomKey).child("chat");
+        if(getIntent().getExtras().get("roomType").toString().equals("random")){
+            roomKey = getIntent().getExtras().get("roomKey").toString();
+            reference = FirebaseDatabase.getInstance().getReference().child("RandomChat").child(roomKey).child("chat");
+        }else{
+            reference = FirebaseDatabase.getInstance().getReference().child("ChatRoom").child(strRoomName);
+        }
+
+
 
         setTitle(strRoomName + " 채팅방");
 

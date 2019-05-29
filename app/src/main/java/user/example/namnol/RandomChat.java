@@ -58,11 +58,11 @@ public class RandomChat extends AppCompatActivity {
                 map.put("chat", "");
                 dbRef.updateChildren(map);
 
-                //TODO: user값 변걍해야함
                 Intent intent = new Intent(getApplicationContext(), Chat.class);
                 intent.putExtra("roomName", "랜덤채팅");
-                intent.putExtra("userName", "Test");
+                intent.putExtra("userName", userName);
                 intent.putExtra("roomKey", key);
+                intent.putExtra("roomType", "random");
                 startActivity(intent);
             }
         });
@@ -88,8 +88,9 @@ public class RandomChat extends AppCompatActivity {
 
                     Intent intent = new Intent(getApplicationContext(), Chat.class);
                     intent.putExtra("roomName", "랜덤채팅");
-                    intent.putExtra("userName", "Test");
+                    intent.putExtra("userName", userName);
                     intent.putExtra("roomKey", key);
+                    intent.putExtra("roomType", "random");
 
                     startActivity(intent);
 

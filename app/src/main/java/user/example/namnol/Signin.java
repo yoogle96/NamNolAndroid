@@ -18,7 +18,7 @@ import android.widget.TextView;
 import java.io.IOException;
 
 public class Signin extends AppCompatActivity {
-    private final String BASE_URL = "http://10.0.2.2:8000";
+    private final String BASE_URL = "https://namnol.herokuapp.com";
     private Retrofit mRetrofit;
     private UserAPI userAPI;
     private Call<UserDTO> mUserDTO;
@@ -87,7 +87,7 @@ public class Signin extends AppCompatActivity {
             @Override
             public void onResponse(Call<UserDTO> call, Response<UserDTO> response){
                 if(response.code() == 200){
-                    Intent intent = new Intent(Signin.this, ChatRoom.class);
+                    Intent intent = new Intent(Signin.this, MainActivity.class);
                     intent.putExtra("userName", etId.getText().toString());
                     startActivityForResult(intent, 3000);
                 }

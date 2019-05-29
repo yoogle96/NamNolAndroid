@@ -16,7 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class Signup extends AppCompatActivity {
-    private final String BASE_URL = "http://10.0.2.2:8000";
+    private final String BASE_URL = "https://namnol.herokuapp.com";
     private Retrofit mRetrofit;
     private UserAPI userAPI;
     private Call<UserDTO> mUserDTO;
