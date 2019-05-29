@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -35,7 +36,8 @@ public class ChatRoom extends AppCompatActivity {
 
     private ArrayAdapter<String> arrayAdapter;
     private ArrayList<String> arrRoomList = new ArrayList<>();
-    private DatabaseReference reference = FirebaseDatabase.getInstance().getReference().getRoot();
+    private DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+    DatabaseReference conditionRef = reference.child("ChatRoom");
     private String name;
     private String userName;
     private String strRoom;
@@ -45,7 +47,7 @@ public class ChatRoom extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle("랜덤채팅 APP");
+        // setTitle("랜덤채팅 APP");
         setContentView(R.layout.activity_chat_room);
 
         // 로그인화면에서 닉네임을 가져온다.
@@ -71,7 +73,8 @@ public class ChatRoom extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         strRoom = et_inDialog.getText().toString();
                         map.put(strRoom, "");
-                        reference.updateChildren(map);
+                        conditionRef.updateChildren(map);
+                        Log.v("Key : ", conditionRef.push().getKey());
                     }
                 });
                 builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
@@ -87,7 +90,7 @@ public class ChatRoom extends AppCompatActivity {
         // 특정 경로의 전체 내용에 대한 변경 사항을 읽고 수신 대기함
         // onDateChange는 Database가 변경되었을 때 호출되고
         // onCancelled는 취소됐을때 호출된다.
-        reference.addValueEventListener(new ValueEventListener() {
+        conditionRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Set<String> set = new HashSet<String>();

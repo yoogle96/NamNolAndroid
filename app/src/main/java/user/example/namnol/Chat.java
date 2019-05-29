@@ -34,6 +34,7 @@ public class Chat extends AppCompatActivity {
 
     private String strRoomName;
     private String strUserName;
+    private String roomKey;
 
     private DatabaseReference reference;
     private String key;
@@ -54,7 +55,9 @@ public class Chat extends AppCompatActivity {
         Log.v("userName : ", getIntent().getExtras().get("userName").toString());
         strRoomName = getIntent().getExtras().get("roomName").toString();
         strUserName = getIntent().getExtras().get("userName").toString();
-        reference = FirebaseDatabase.getInstance().getReference().child(strRoomName);
+        roomKey = getIntent().getExtras().get("roomKey").toString();
+//        reference = FirebaseDatabase.getInstance().getReference().child("ChatRoom").child(strRoomName);
+        reference = FirebaseDatabase.getInstance().getReference().child("RandomChat").child(roomKey).child("chat");
 
         setTitle(strRoomName + " 채팅방");
 
