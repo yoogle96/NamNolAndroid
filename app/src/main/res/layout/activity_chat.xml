@@ -7,6 +7,7 @@
     tools:context=".Chat">
 
     <LinearLayout
+        android:background="#FFDA72"
         android:id="@+id/linearLayout"
         android:layout_width="0dp"
         android:layout_height="624dp"
@@ -23,6 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="60dp"
+            android:stackFromBottom="true"
         />
 
         <LinearLayout
