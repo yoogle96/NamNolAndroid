@@ -6,53 +6,46 @@
     android:layout_height="match_parent"
     tools:context=".ChatRoom">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".Chat">
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="626dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginEnd="35dp"
+        android:layout_marginBottom="52dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingTop="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent">
 
-        <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="0dp"
-            android:layout_height="624dp"
-            android:paddingTop="20dp"
-            android:layout_marginStart="35dp"
-            android:layout_marginEnd="35dp"
-            android:layout_marginBottom="52dp"
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#11000000"
             android:gravity="center"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent">
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="채팅방 LIST"
+            android:textColor="#dd000000"
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="채팅방 LIST"
-                android:gravity="center"
-                android:textSize="15sp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:textColor="#dd000000"
-                android:textStyle="bold"
-                android:background="#11000000"
-                />
-            <ListView
-                android:id="@+id/list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="50dp" />
+        <ListView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="50dp" />
 
-            <Button
-                android:id="@+id/btn_create"
-                android:text="채팅방생성"
-                android:textSize="13sp"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_marginTop="-50dp"
-                 />
+        <Button
+            android:id="@+id/btn_create"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginTop="-50dp"
+            android:text="채팅방생성"
+            android:textSize="13sp" />
 
-            </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
