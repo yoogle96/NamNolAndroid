@@ -25,8 +25,10 @@ public class Signin extends AppCompatActivity {
 
     TextView etId;
     TextView etPassword;
+    TextView etError;
     Button btnSignin;
     Button btnSignup;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,7 @@ public class Signin extends AppCompatActivity {
         etPassword = (EditText) findViewById(R.id.et_password);
         btnSignin = (Button) findViewById(R.id.btn_signin);
         btnSignup = (Button) findViewById(R.id.btn_signup);
+        etError = findViewById(R.id.tv_error);
 
         // 로그인 버튼 이벤트
         btnSignin.setOnClickListener(new Button.OnClickListener(){
@@ -90,8 +93,9 @@ public class Signin extends AppCompatActivity {
                     Intent intent = new Intent(Signin.this, MainActivity.class);
                     intent.putExtra("userName", etId.getText().toString());
                     startActivityForResult(intent, 3000);
+                }else{
+                    etError.setText("아이디 또는 비밀번호 오류");
                 }
-
             }
 
             @Override

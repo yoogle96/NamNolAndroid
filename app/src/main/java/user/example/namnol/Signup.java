@@ -1,6 +1,7 @@
 package user.example.namnol;
 
 import androidx.appcompat.app.AppCompatActivity;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -19,12 +20,13 @@ public class Signup extends AppCompatActivity {
     private final String BASE_URL = "https://namnol.herokuapp.com";
     private Retrofit mRetrofit;
     private UserAPI userAPI;
-    private Call<UserDTO> mUserDTO;
+    private Call<ResponseBody> mUserDTO;
 
     TextView etId;
     TextView etEmail;
     TextView etPassword;
     TextView etPasswordConfirm;
+    TextView tvError;
     Button btnSignup;
     Button btnCancel;
 
@@ -40,6 +42,7 @@ public class Signup extends AppCompatActivity {
         etEmail = ((EditText)findViewById(R.id.et_email));
         etPassword = ((EditText)findViewById(R.id.et_password));
         etPasswordConfirm = ((EditText)findViewById(R.id.et_passwordConfirm));
+        tvError = findViewById(R.id.tv_error);
         btnSignup = findViewById(R.id.btn_signup);
         btnCancel = findViewById(R.id.btn_cancel);
 
@@ -74,25 +77,35 @@ public class Signup extends AppCompatActivity {
     // 새로운 유저 생성
     private void createUser(){
 
-        UserDTO userDTO = new UserDTO(etId.getText().toString(), etEmail.getText().toString() , etPassword.getText().toString(), etPasswordConfirm.getText().toString());
+        final UserDTO userDTO = new UserDTO(etId.getText().toString(), etEmail.getText().toString() , etPassword.getText().toString(), etPasswordConfirm.getText().toString());
         mUserDTO = userAPI.createUser(userDTO);
+        final String userName = userDTO.username;
 
-        mUserDTO.enqueue(new Callback<UserDTO>(){
+        mUserDTO.enqueue(new Callback<ResponseBody>(){
             @Override
-            public void onResponse(Call<UserDTO> call, Response<UserDTO> response){
-                Log.d("성공", response.toString());
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response){
+                try{
+                    int res = response.code();
+                    if(res == 201){
+                        Intent signUpIntent = new Intent();
+                        signUpIntent.putExtra("signUpId", userName);
+                        setResult(RESULT_OK, signUpIntent);
+                        finish();
+                    }else{
+                        tvError.setText("아이디 또는 비밀번호, 이메일 양식 오류");
+                    }
+                }catch (Exception e){
+
+                }
             }
 
             @Override
-            public void onFailure(Call<UserDTO> call, Throwable t){
+            public void onFailure(Call<ResponseBody> call, Throwable t){
                 Log.d("에러", t.toString());
             }
         });
 
-        Intent signUpIntent = new Intent();
-        signUpIntent.putExtra("signUpId", userDTO.username);
-        setResult(RESULT_OK, signUpIntent);
-        finish();
+
 
     }
 }
