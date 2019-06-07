@@ -20,7 +20,7 @@ public class Signup extends AppCompatActivity {
     private final String BASE_URL = "https://namnol.herokuapp.com";
     private Retrofit mRetrofit;
     private UserAPI userAPI;
-    private Call<ResponseBody> mUserDTO;
+    private Call<UserDTO> mUserDTO;
 
     TextView etId;
     TextView etEmail;
@@ -81,9 +81,9 @@ public class Signup extends AppCompatActivity {
         mUserDTO = userAPI.createUser(userDTO);
         final String userName = userDTO.username;
 
-        mUserDTO.enqueue(new Callback<ResponseBody>(){
+        mUserDTO.enqueue(new Callback<UserDTO>(){
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response){
+            public void onResponse(Call<UserDTO> call, Response<UserDTO> response){
                 try{
                     int res = response.code();
                     if(res == 201){
@@ -100,7 +100,7 @@ public class Signup extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t){
+            public void onFailure(Call<UserDTO> call, Throwable t){
                 Log.d("에러", t.toString());
             }
         });

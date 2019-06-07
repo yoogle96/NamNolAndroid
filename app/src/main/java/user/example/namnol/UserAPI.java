@@ -8,7 +8,7 @@ import retrofit2.http.POST;
 public interface UserAPI {
     // 회원가입
     @POST("/rest-auth/registration/")
-    Call<ResponseBody> createUser(@Body UserDTO userDTO);
+    Call<UserDTO> createUser(@Body UserDTO userDTO);
 
     // 로그인
     @POST("/rest-auth/login/")

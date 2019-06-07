@@ -2,17 +2,21 @@ package user.example.namnol;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.service.autofill.Dataset;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -34,15 +38,19 @@ public class ChatRoom extends AppCompatActivity {
     private ListView listView;
     private Button btnCreate;
 
+    private RecyclerView recyclerView;
     private ArrayAdapter<String> arrayAdapter;
-    private ArrayList<String> arrRoomList = new ArrayList<>();
+    private ArrayList<RoomDTO> arrRoomList = new ArrayList<>();
+    private RoomAdapter myAdapter;
     private DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-    DatabaseReference conditionRef = reference.child("ChatRoom");
+    private DatabaseReference conditionRef = reference.child("ChatRoom");
     private String name;
     private String userName;
     private String strRoom;
 
     Map<String, Object> map = new HashMap<String, Object>();
+
+    DataSnapshot myDataSnap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,38 +62,26 @@ public class ChatRoom extends AppCompatActivity {
         Intent intent = getIntent();
         userName = intent.getStringExtra("userName");
 
-        listView = (ListView) findViewById(R.id.list);
-        btnCreate = findViewById(R.id.btn_create);
+        recyclerView = (RecyclerView) findViewById(R.id.room_recycle);
 
-        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, arrRoomList);
-        listView.setAdapter(arrayAdapter);
+        myAdapter = new RoomAdapter(arrRoomList);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(myAdapter);
+
+        btnCreate = findViewById(R.id.btn_create);
+//        ListAdapter adapter = new FirebaseListAdapter<ChatMessage>(this, ChatMessage.class, android.R.layout.two_line_list_item, mRef)
+//        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, arrRoomList);
+//        listView.setAdapter(arrayAdapter);
 
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final EditText et_inDialog = new EditText(ChatRoom.this);
-
-                final AlertDialog.Builder builder = new AlertDialog.Builder(ChatRoom.this);
-                builder.setTitle("채팅방 이름 입력");
-                builder.setView(et_inDialog);
-                builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        strRoom = et_inDialog.getText().toString();
-                        map.put(strRoom, "");
-                        conditionRef.updateChildren(map);
-                        Log.v("Key : ", conditionRef.push().getKey());
-                    }
-                });
-                builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
-                builder.show();
+                Intent createIntent = new Intent(ChatRoom.this, CreateRoom.class);
+                startActivity(createIntent);
             }
         });
+
 
         // 특정 경로의 전체 내용에 대한 변경 사항을 읽고 수신 대기함
         // onDateChange는 Database가 변경되었을 때 호출되고
@@ -95,15 +91,19 @@ public class ChatRoom extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Set<String> set = new HashSet<String>();
                 Iterator i = dataSnapshot.getChildren().iterator();
-
+                arrRoomList.clear();
                 while (i.hasNext()) {
-                    set.add(((DataSnapshot) i.next()).getKey());
+                    String key = ((DataSnapshot) i.next()).getKey();
+                    String title = dataSnapshot.child(key).child("moim_title").getValue().toString();
+                    String kind = dataSnapshot.child(key).child("moim_group").getValue().toString();
+                    String curr = dataSnapshot.child(key).child("moim_num").getValue().toString();
+                    arrRoomList.add(new RoomDTO(title, kind, curr, key));
                 }
 
-                arrRoomList.clear();
-                arrRoomList.addAll(set);
+                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+                recyclerView.setLayoutManager(layoutManager);
+                recyclerView.setAdapter(myAdapter);
 
-                arrayAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -111,16 +111,26 @@ public class ChatRoom extends AppCompatActivity {
 
             }
         });
-        // 리스트뷰의 채팅방을 클릭했을 때 반응
-        // 채팅방의 이름과 입장하는 유저의 이름을 전달
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        myAdapter.setItemClick(new RoomAdapter.ItemClick() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(getApplicationContext(), Chat.class);
-                intent.putExtra("roomName", ((TextView) view).getText().toString());
-                intent.putExtra("userName", userName);
-                intent.putExtra("roomType", "matching");
-                startActivity(intent);
+            public void onClick(View view) {
+                TextView titleView = (TextView) view.findViewById(R.id.tv_title);
+                TextView kindView = (TextView) view.findViewById(R.id.tv_kind);
+                TextView currView = (TextView) view.findViewById(R.id.tv_curr);
+                TextView keyView = (TextView) view.findViewById(R.id.tv_key);
+                String title = titleView.getText().toString();
+                String kind = kindView.getText().toString();
+                String curr = currView.getText().toString();
+                String key = keyView.getText().toString();
+
+                Intent detailIntent = new Intent(ChatRoom.this, RoomDetail.class);
+                detailIntent.putExtra("userName", userName);
+                detailIntent.putExtra("title", title);
+                detailIntent.putExtra("kind", kind);
+                detailIntent.putExtra("curr", curr);
+                detailIntent.putExtra("key", key);
+                startActivity(detailIntent);
             }
         });
     }
