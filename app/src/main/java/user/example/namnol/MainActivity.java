@@ -11,6 +11,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button btnMatching;
     private Button btnRandomChat;
+    private Button btnNotice;
 
     private String userName;
 
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
         btnMatching = findViewById(R.id.btn_matching);
         btnRandomChat = findViewById(R.id.btn_randomChat);
+        btnNotice = findViewById(R.id.btn_notice);
 
         btnMatching.setOnClickListener(new Button.OnClickListener(){
             @Override
@@ -40,6 +42,14 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, RandomChat.class);
                 intent.putExtra("userName", userName);
                 startActivityForResult(intent, 3000);
+            }
+        });
+
+        btnNotice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, Notice.class);
+                startActivity(intent);
             }
         });
     }

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFDA72"
     tools:context=".MainActivity">
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -38,7 +39,8 @@
         <Button
             android:id="@+id/btn_notice"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="공지사항" />
 
     </LinearLayout>
 

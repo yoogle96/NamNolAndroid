@@ -62,6 +62,7 @@ public class ChatRoom extends AppCompatActivity {
         Intent intent = getIntent();
         userName = intent.getStringExtra("userName");
 
+
         recyclerView = (RecyclerView) findViewById(R.id.room_recycle);
 
         myAdapter = new RoomAdapter(arrRoomList);

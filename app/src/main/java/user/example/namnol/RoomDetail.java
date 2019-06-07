@@ -30,12 +30,19 @@ public class RoomDetail extends AppCompatActivity {
     private DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
     private DatabaseReference conditionRef = reference.child("ChatRoom");
     private String key;
+    private String roomName;
     Intent intent;
+    String userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room_detail);
+        intent = getIntent();
+
+        userName = intent.getExtras().getString("userName");
+
+
 
         //component init
         mmoim_group = (TextView)findViewById(R.id.show_group);
@@ -44,16 +51,7 @@ public class RoomDetail extends AppCompatActivity {
         mmoim_title = (TextView)findViewById(R.id.show_title);
         mmoim_btn = (Button)findViewById(R.id.show_button);
 
-        mmoim_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent
-            }
-        });
-        //Get Data From gaesipan
-        intent = getIntent();
-
-//        group data
+        //        group data
         String A = intent.getExtras().getString("kind");
         mmoim_group.setText(A);
 
@@ -70,6 +68,21 @@ public class RoomDetail extends AppCompatActivity {
         mmoim_num.setText((A));
 
         key = intent.getExtras().getString("key");
+        roomName = intent.getExtras().getString("title");
+
+        mmoim_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent chatIntent = new Intent(RoomDetail.this, Chat.class);
+                chatIntent.putExtra("userName", userName);
+                chatIntent.putExtra("roomKey", key);
+                chatIntent.putExtra("roomName", roomName);
+                startActivity(chatIntent);
+            }
+        });
+
+        //Get Data From gaesipan
+
         conditionRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

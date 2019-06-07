@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFDA72"
     tools:context=".Signin">
 
     <LinearLayout
@@ -19,6 +20,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent">
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="177dp"
+            android:maxWidth="100dp"
+            android:maxHeight="100dp"
+            android:paddingBottom="30dp"
+            android:src="@drawable/penguin" />
 
         <EditText
             android:id="@+id/et_id"
