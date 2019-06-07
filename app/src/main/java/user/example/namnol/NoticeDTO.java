@@ -3,22 +3,13 @@ package user.example.namnol;
 public class NoticeDTO {
     private String title;
     private String writer;
-    private String pub_date;
-    private String img;
-    private String content;
+    private String date;
 
-    NoticeDTO(String title, String writer, String pub_date, String img, String content){
+
+    NoticeDTO(String title, String writer, String date){
         this.title = title;
         this.writer = writer;
-        this.pub_date = pub_date;
-        this.img = img;
-        this.content = content;
-    }
-
-    NoticeDTO(String title, String writer, String pub_date){
-        this.title = title;
-        this.writer = writer;
-        this.pub_date = pub_date;
+        this.date = date;
     }
 
     public String getTitle(){
@@ -30,14 +21,7 @@ public class NoticeDTO {
     }
 
     public String getPub_date(){
-        return pub_date;
+        return date;
     }
 
-    public String getImg(){
-        return img;
-    }
-
-    public String getContent(){
-        return content;
-    }
 }

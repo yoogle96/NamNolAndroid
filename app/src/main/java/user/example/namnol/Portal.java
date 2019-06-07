@@ -24,6 +24,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -104,6 +105,7 @@ public class Portal extends AppCompatActivity {
                 try{
                     String res = response.body().string();
                     JSONObject obj = new JSONObject(res);
+
 
                     if(obj.getString("code").equals("10000")){
                         Intent intent = new Intent(Portal.this, Signup.class);
