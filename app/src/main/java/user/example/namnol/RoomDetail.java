@@ -70,6 +70,7 @@ public class RoomDetail extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent chatIntent = new Intent(RoomDetail.this, Chat.class);
+                chatIntent.putExtra("roomType", "chat");
                 chatIntent.putExtra("userName", userName);
                 chatIntent.putExtra("roomKey", key);
                 chatIntent.putExtra("roomName", title);

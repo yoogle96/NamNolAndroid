@@ -83,6 +83,7 @@ public class Notice extends AppCompatActivity {
         protected void onPreExecute(){
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progressDialog.setMessage("잠시 기다려 주세요.");
+            progressDialog.setCancelable(false);
             progressDialog.show();
             super.onPreExecute();
         }
@@ -119,7 +120,10 @@ public class Notice extends AppCompatActivity {
                         Log.d("에러", t.toString());
                     }
                 });
-                Thread.sleep(20000);
+                // list가 비어있지 않을때 까지 계속 기다리기
+                while(list.isEmpty()){
+                    Thread.sleep(100);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
