@@ -44,16 +44,21 @@ public class CreateRoom extends AppCompatActivity {
     private DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
     DatabaseReference conditionRef = reference.child("ChatRoom");
 
+    String userName;
     String moim_title;
     String moim_info;
     String moim_group;
     String moim_num;
+    String key;
     Map<String, Object> map = new HashMap<String, Object>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_room);
+
+        Intent intent = getIntent();
+        userName = intent.getExtras().getString("userName");
 
         //component init
         minputinfo = (TextView)findViewById(R.id.inputinfo);
@@ -87,7 +92,7 @@ public class CreateRoom extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                String key = conditionRef.push().getKey();
+                key = conditionRef.push().getKey();
                 DatabaseReference dbRef = conditionRef.child(key);
                 moim_title = mtitleinfo.getText().toString();
                 moim_info = minputinfo.getText().toString();
@@ -113,12 +118,15 @@ public class CreateRoom extends AppCompatActivity {
                     @Override
                     public void run() {
                         Intent intent = new Intent(getApplicationContext(), RoomDetail.class);
+                        intent.putExtra("userName", userName);
                         intent.putExtra("moim_title",mtitleinfo.getText().toString());
                         intent.putExtra("moim_info",minputinfo.getText().toString());
                         intent.putExtra("moim_group",String.valueOf(spinner.getSelectedItem()));
                         intent.putExtra("moim_num",nofp.getText().toString());
+                        intent.putExtra("roomKey", key);
 
                         startActivity(intent);
+                        finish();
                     }
                 };
                 //handler 를 통해 system delay

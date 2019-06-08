@@ -33,6 +33,10 @@ public class RoomDetail extends AppCompatActivity {
     private String roomName;
     Intent intent;
     String userName;
+    String title;
+    String info;
+    String curr;
+    String kind;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +46,6 @@ public class RoomDetail extends AppCompatActivity {
 
         userName = intent.getExtras().getString("userName");
 
-
-
         //component init
         mmoim_group = (TextView)findViewById(R.id.show_group);
         mmoim_info = (TextView)findViewById(R.id.show_info);
@@ -51,23 +53,17 @@ public class RoomDetail extends AppCompatActivity {
         mmoim_title = (TextView)findViewById(R.id.show_title);
         mmoim_btn = (Button)findViewById(R.id.show_button);
 
-        //        group data
-        String A = intent.getExtras().getString("kind");
-        mmoim_group.setText(A);
+        title = intent.getExtras().getString("moim_title");
+        info = intent.getExtras().getString("moim_info");
+        curr = intent.getExtras().getString("moim_num");
+        kind = intent.getExtras().getString("moim_group");
+        key = intent.getExtras().getString("roomKey");
 
-//        title data
-        A = intent.getExtras().getString("title");
-        mmoim_title.setText(A);
+        mmoim_group.setText(kind);
+        mmoim_title.setText(title);
+        mmoim_info.setText(info);
+        mmoim_num.setText(curr);
 
-//        info data
-        A = intent.getExtras().getString("moim_info");
-        mmoim_info.setText(A);
-
-//        people number data
-        A = intent.getExtras().getString("curr");
-        mmoim_num.setText((A));
-
-        key = intent.getExtras().getString("key");
         roomName = intent.getExtras().getString("title");
 
         mmoim_btn.setOnClickListener(new View.OnClickListener() {
@@ -76,7 +72,7 @@ public class RoomDetail extends AppCompatActivity {
                 Intent chatIntent = new Intent(RoomDetail.this, Chat.class);
                 chatIntent.putExtra("userName", userName);
                 chatIntent.putExtra("roomKey", key);
-                chatIntent.putExtra("roomName", roomName);
+                chatIntent.putExtra("roomName", title);
                 startActivity(chatIntent);
             }
         });
@@ -89,10 +85,10 @@ public class RoomDetail extends AppCompatActivity {
                 try{
                     mmoim_info.setText(dataSnapshot.child(key).child("moim_info").getValue().toString());
                 }catch (Exception e){
-                    mmoim_title.setText(intent.getExtras().getString("moim_title"));
-                    mmoim_info.setText(intent.getExtras().getString("moim_info"));
-                    mmoim_group.setText(intent.getExtras().getString("moim_group"));
-                    mmoim_num.setText(intent.getExtras().getString("moim_num"));
+//                    mmoim_title.setText(intent.getExtras().getString("moim_title"));
+//                    mmoim_info.setText(intent.getExtras().getString("moim_info"));
+//                    mmoim_group.setText(intent.getExtras().getString("moim_group"));
+//                    mmoim_num.setText(intent.getExtras().getString("moim_num"));
                 }
 
             }

@@ -79,6 +79,7 @@ public class ChatRoom extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent createIntent = new Intent(ChatRoom.this, CreateRoom.class);
+                createIntent.putExtra("userName", userName);
                 startActivity(createIntent);
             }
         });
@@ -127,10 +128,10 @@ public class ChatRoom extends AppCompatActivity {
 
                 Intent detailIntent = new Intent(ChatRoom.this, RoomDetail.class);
                 detailIntent.putExtra("userName", userName);
-                detailIntent.putExtra("title", title);
-                detailIntent.putExtra("kind", kind);
-                detailIntent.putExtra("curr", curr);
-                detailIntent.putExtra("key", key);
+                detailIntent.putExtra("moim_title", title);
+                detailIntent.putExtra("moim_group", kind);
+                detailIntent.putExtra("moim_num", curr);
+                detailIntent.putExtra("roomKey", key);
                 startActivity(detailIntent);
             }
         });
